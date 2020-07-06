@@ -1,0 +1,1 @@
+cd output; for f in *ppm ; do ffmpeg -i $f `basename $f ppm`png; done; ffmpeg -framerate 60 -i %04d.png -codec libx264 -crf 18 output.mp4; rm -f *.png
