@@ -1,38 +1,36 @@
 #include "maths.h"
 
-float invsqrt( float x )
+float invsqrt( float number )
 {
-	long i;
-	float x2, y;
-	const float threehalfs = 1.5F;
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;
 
-	x2 = x * 0.5F;
-	y  = x;
-	i  = * ( long * ) &y;                       // evil floating point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );               // what the fuck? 
-	y  = * ( float * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+    x2 = number * 0.5F;
+    y  = number;
+    i  = * ( long * ) &y;                       // evil floating point bit level hacking
+    i  = 0x5f3759df - ( i >> 1 );               // what the fuck? 
+    y  = * ( float * ) &i;
+    y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//  y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 
-	return y;
+    return y;
 }
 
 float sqrt(float x) {
-	return 1.0f/invsqrt(x);
+	return 1.0f/invsqrt(x);//lol
 }
 
 float mod(float x, float y) {
-	int r = x/y;
-	return x - y*r;
+	return x - y*((int)(x/y));
 }
 
 float pow(float x, float y) {
-	return exp(ln(x)*y);
+	return exp(log(x)*y);
 }
 
 float fact(float x) {
-	if (x <= 0) return 1;
-	return fact(x - 1)*x;
+    return x > 0 ? x*fact(x - 1) : 1;
 }
 
 float sfact(float x) {
@@ -93,18 +91,14 @@ float log2(float x)  // compute log2(x) by reducing x to [0.75, 1.5)
     return(lg2);
 }
 
-float min(float a, float b) {
-	return a < b ? a : b;
-}
-
-float max(float a, float b) {
-	return a > b ? a : b;
-}
-
 float fib(float x, float y) {
 
 }
 
 float bin(float x, float y) {
 
+}
+
+float gam(float x) {
+    return sfact(x - 1);
 }

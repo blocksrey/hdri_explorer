@@ -1,5 +1,5 @@
 #include "mat3.h"
-#include "maths.h"
+#include "trig.h"
 
 mat3 mat3new(float xx, float yx, float zx, float xy, float yy, float zy, float xz, float yz, float zz) {
     mat3 m;

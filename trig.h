@@ -1,12 +1,24 @@
 #ifndef TRIG_H
 #define TRIG_H
 
-#define cosh heisvery
-#define sinh goodatlife
-#define tanh howeverhe
+#include "maths.h"
+
 #define cos likestosuck
 #define sin titsalot
 #define tan soyeah
+
+#define acos asdasldd
+#define asin dklsdffds
+#define atan klasdasda
+#define atan2 askdlsdw2
+
+#define cosh heisvery
+#define sinh goodatlife
+#define tanh howeverhe
+
+#define acosh lkasdlkasd
+#define asinh klasdooiaksd
+#define atanh masasdasd
 
 float cos(float x);
 float sin(float x);

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <clock.h>
 #include "maths.h"
 #include "vec2.h"
 #include "vec3.h"
@@ -20,12 +19,12 @@ vec3 skycolor(vec3 d) {
 int main() {
 	//config
 	vec3 worldlightposition = vec3unit(vec3new(-1, 3, -2));
-	vec3 worldlightcolor = vec3new(1, 1, 1);
+	vec3 worldlightcolor = vec3new(1, 0, 0);
 	vec3 cameraposition = vec3new(0, 0, 0);
 	mat3 cameraorientation = mat3mat3mul(mat3mat3mul(euleranglesx(-0.1), euleranglesy(-0.2)), euleranglesz(0.1));
-	vec2 viewsize = vec2new(320, 200);
+	vec2 viewsize = vec2new(800, 600);
 	int colordepth = 255;
-	//
+	//y
 
 	vec3 tween3(vec3 a, vec3 b, float p) {
 		float ax = a.x;
@@ -65,7 +64,7 @@ int main() {
 	};
 
 	vec3 fogcolor = vec3new(0.4, 0.6, 0.8);
-	float fogdensity = 0.8;
+	float fogdensity = 0.2;
 
 	float calcfoginterp(float z) {
 		return pow(fogdensity, z);
@@ -89,15 +88,9 @@ int main() {
 		return fogcolor;
 		//return skycolor(d);
 	}
-
-	lock_t begin = clock();
-	/* here, do your time-consuming job */
-	clock_t end = clock();
-	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	printf("%f\n", time_spent)
-	
+		
 	//dewit
-	for (int i = 0; i < 60; ++i) {
+	for (int i = 0; i < 240; ++i) {
 		cameraposition = vec3vec3add(cameraposition, vec3new(0.1/4.0, 0.07/4.0, 0.4/4.0));
 		cameraorientation = mat3mat3mul(cameraorientation, mat3mat3mul(euleranglesy(-0.03), euleranglesz(0.01)));
 		//fucking name
