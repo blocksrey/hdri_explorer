@@ -59,17 +59,10 @@ int main() {
 	};
 
 	float spherereflects[] = {
-		0.5,
-		0.5,
-		0.5
+		0,
+		0,
+		0
 	};
-
-	vec3 fogcolor = vec3new(0.4, 0.6, 0.8);
-	float fogdensity = 0.2;
-
-	float calcfoginterp(float z) {
-		return pow(fogdensity, z);
-	}
 
 	vec3 vec3reflect(vec3 v, vec3 n) {
 		return vec3vec3sub(v, vec3nummul(n, 2*vec3dot(v, n)));
@@ -81,13 +74,11 @@ int main() {
 			hit h = raypointsphere(raynew(p, d), spheres[i]);
 			if (h.s) {
 				float distance = vec3len(vec3vec3sub(h.p, p));
-				float foginterpvalue = calcfoginterp(distance);
 				vec3 color0 = tween3(vec3nummul(vec3vec3mul(worldlightcolor, spherecolors[i]), max(0, vec3dot(h.n, worldlightposition))), trace(h.p, vec3reflect(d, h.n)), spherereflects[i]);
-				return tween3(color0, fogcolor, foginterpvalue);
+				return color0;
 			}
 		}
-		return fogcolor;
-		//return skycolor(d);
+		return skycolor(d);
 	}
 	
 	//dewit
