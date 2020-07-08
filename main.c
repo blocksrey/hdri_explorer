@@ -7,6 +7,7 @@
 #include "ray.h"
 #include "sphere.h"
 #include "hit.h"
+#include "trig.h"
 
 vec3 skycolor(vec3 d) {
 	float x = d.x;
@@ -88,7 +89,7 @@ int main() {
 		return fogcolor;
 		//return skycolor(d);
 	}
-		
+	
 	//dewit
 	for (int i = 0; i < 240; ++i) {
 		cameraposition = vec3vec3add(cameraposition, vec3new(0.1/4.0, 0.07/4.0, 0.4/4.0));

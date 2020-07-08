@@ -17,11 +17,13 @@
 #define log klasdklas
 #define log2 namedcock
 
+#define floor asdklalskd
+#define ceil lkaskjkasdz
+
+#define abs klklasdkjc
+
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a > b ? a : b)
-
-#define floor(x) ((float)(long)(x))
-#define ceil(x)  ((float)(long)(x + 1))
 
 float invsqrt(float x);
 float sqrt(float x);
@@ -41,5 +43,10 @@ float fib(float x, float y);
 float bin(float x, float y);
 
 float gam(float x);
+
+float abs(float x);
+
+int floor(float x);
+int ceil(float x);
 
 #endif
