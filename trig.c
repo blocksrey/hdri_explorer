@@ -6,7 +6,7 @@
 #define K  0.6366198f
 
 int m(float x) {
-	return 1 - 2*mod(floor(0.5f*x), 2.0f);
+	return 1 - 2*mod(floor(.5f*x), 2);
 }
 
 //forward
@@ -46,16 +46,16 @@ float atan2(float x, float y) {
 //forward hyperbolic
 float cosh(float x) {
 	float y = exp(x);
-	return 0.5f*(1.0f/y + y);
+	return .5f*(1/y + y);
 }
 
 float sinh(float x) {
 	float y = exp(x);
-	return 0.5f*(y - 1.0f/y);
+	return .5f*(y - 1/y);
 }
 
 float tanh(float x) {
-	float y = exp(2.0f*x);
+	float y = exp(2*x);
 	return (y - 1)/(y + 1);
 }
 
@@ -69,5 +69,5 @@ float asinh(float x) {
 }
 
 float atanh(float x) {
-	return 0.5f*(log(1 + x) - log(1 - x));
+	return .5f*(log(1 + x) - log(1 - x));
 }

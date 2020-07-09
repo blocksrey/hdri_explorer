@@ -1,28 +1,26 @@
 #include "maths.h"
 
-float invsqrt( float number )
-{
-	long i;
-	float x2, y;
-	const float threehalfs = 1.5F;
-
-	x2 = number * 0.5F;
-	y  = number;
-	i  = * ( long * ) &y;                       // evil floating point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );               // what the fuck? 
-	y  = * ( float * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-//  y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
-
+//Credit to John Carmack.
+float invsqrt(float x) {
+	float t = 1.5f;
+	float z = .5f*x;
+	float y = x;
+	long i = *(long*)&y;
+	i = 0x5f3759df - (i >> 1);
+	y = *(float*)&i;
+	y *= t - z*y*y;//1
+	//y *= t - z*y*y;//2
 	return y;
 }
 
+//I mean why not
 float sqrt(float x) {
-	return 1.0f/invsqrt(x);//lol
+	return 1/invsqrt(x);
 }
 
 float mod(float x, float y) {
-	return x - y*floor(x/y);
+	int i = x/y;
+	return x - y*(x < i ? i - 1 : i);
 }
 
 float pow(float x, float y) {
@@ -108,11 +106,11 @@ float abs(float x) {
 }
 
 int floor(float x) {
-	int xi = (int)x;
-	return x < xi ? xi - 1 : xi;
+	int i = x;
+	return x < i ? i - 1 : i;
 }
 
 int ceil(float x) {
-	int xi = (int)x;
-	return x < xi ? xi : xi + 1;
+	int i = x;
+	return x > i ? i + 1 : i;
 }

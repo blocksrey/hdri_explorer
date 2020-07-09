@@ -75,6 +75,7 @@ int main() {
 			if (h.s) {
 				float distance = vec3len(vec3vec3sub(h.p, p));
 				vec3 color0 = tween3(vec3nummul(vec3vec3mul(worldlightcolor, spherecolors[i]), max(0, vec3dot(h.n, worldlightposition))), trace(h.p, vec3reflect(d, h.n)), spherereflects[i]);
+				//return skycolor(d);
 				return color0;
 			}
 		}
@@ -86,7 +87,7 @@ int main() {
 		cameraposition = vec3vec3add(cameraposition, vec3new(0.1/4.0, 0.07/4.0, 0.4/4.0));
 		cameraorientation = mat3mat3mul(cameraorientation, mat3mat3mul(euleranglesy(-0.03), euleranglesz(0.01)));
 		//fucking name
-		char filename[32];
+		char filename[24];
 		sprintf(filename, "output/%04d.ppm", i);
 		//open file
 		FILE *file = fopen(filename, "wb");
@@ -99,6 +100,7 @@ int main() {
 			vec3 castdirection = vec3unit(mat3vec3mul(cameraorientation, vec3new((2*x - viewsize.x)/viewsize.y, (viewsize.y - 2*y)/viewsize.y, 0.5)));
 			//calculate color
 			vec3 color = trace(cameraposition, castdirection);
+			//vec3 color = vec3new(0, 1, 0);
 			//write pixel color
 			fwrite((char[]){colordepth*color.x, colordepth*color.y, colordepth*color.z}, 1, 3, file);
 		}
