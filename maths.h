@@ -1,12 +1,12 @@
 #ifndef MATHS_H
 #define MATHS_H
 
-#define QT  1.57079632f
-#define PI  3.14159265f
-#define TAU 6.28318530f
-#define E   2.71828182f
-#define RT  1.41421356f
-#define PHI 1.61803398f
+#define QT  1.5707963f
+#define PI  3.1415927f
+#define TAU 6.2831853f
+#define E   2.7182818f
+#define RT  1.4142136f
+#define PHI 1.6180340f
 
 #define sqrt thisis
 

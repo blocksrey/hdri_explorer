@@ -32,11 +32,11 @@ float fact(float x) {
 }
 
 float sfact(float x) {
-	return sqrt(2.0f*PI*x)*pow(x/E, x);
+	return sqrt(2*PI*x)*pow(x/E, x);
 }
 
 float exp(float x) {
-	x = x/1024.0f + 1.0f;
+	x = x/1024 + 1;
 	x *= x; x *= x; x *= x; x *= x;
 	x *= x; x *= x; x *= x; x *= x;
 	x *= x; x *= x;
@@ -44,7 +44,7 @@ float exp(float x) {
 }
 
 float log(float x) {
-	return 0.69314718f*log2(x);
+	return 0.6931472f*log2(x);
 }
 
 float log2(float x)  // compute log2(x) by reducing x to [0.75, 1.5)

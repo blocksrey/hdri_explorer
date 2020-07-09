@@ -1,25 +1,16 @@
 #include "trig.h"
 
-#define C0 0.2265329f
-#define C1 1.0017028f
-#define C2 4.4050123f
-#define K  0.6366198f
-
-int m(float x) {
-	return 1 - 2*mod(floor(.5f*x), 2);
-}
-
 //forward
 float cos(float x) {
-	x *= K; x += 1;
+	x *= 0.6366198f; x += 1;
 	float p = mod(x, 2) - 1; p *= p;
-	return m(x)*C0*(C1 - p)*(C2 - p);
+	return (1 - 2*mod(floor(.5f*x), 2))*0.2265329f*(1.0017028f - p)*(4.4050123f - p);
 }
 
 float sin(float x) {
-	x *= K;
+	x *= 0.6366198f;
 	float p = mod(x, 2) - 1; p *= p;
-	return m(x)*C0*(C1 - p)*(C2 - p);
+	return (1 - 2*mod(floor(.5f*x), 2))*0.2265329f*(1.0017028f - p)*(4.4050123f - p);
 }
 
 float tan(float x) {
@@ -27,16 +18,29 @@ float tan(float x) {
 }
 
 //inverse
+//[-1, 1]
 float acos(float x) {
-
+	return
+		1.5707963f -
+		1.0469419f*x +
+		0.1610680f*x*x*x -
+		0.5315243f*x*x*x*x*x;
 }
 
+//[-1, 1]
 float asin(float x) {
-
+	return
+		1.0469419f*x -
+		0.1610680f*x*x*x +
+		0.5315243f*x*x*x*x*x;
 }
 
+//[-1, 1]
 float atan(float x) {
-
+	return
+		0.9959826f*x -
+		0.2922813f*x*x*x +
+		0.0830216*x*x*x*x*x;
 }
 
 float atan2(float x, float y) {
