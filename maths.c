@@ -1,6 +1,5 @@
 #include "maths.h"
 
-//Credit to John Carmack.
 float invsqrt(float x) {
 	float t = 1.5f;
 	float z = .5f*x;
@@ -13,7 +12,6 @@ float invsqrt(float x) {
 	return y;
 }
 
-//I mean why not
 float sqrt(float x) {
 	return 1/invsqrt(x);
 }
@@ -31,7 +29,7 @@ float fact(float x) {
 	return x > 0 ? x*fact(x - 1) : 1;
 }
 
-float sfact(float x) {
+float stir(float x) {
 	return sqrt(2*PI*x)*pow(x/E, x);
 }
 
@@ -95,14 +93,6 @@ float fib(float x, float y) {
 
 float bin(float x, float y) {
 
-}
-
-float gam(float x) {
-	return sfact(x - 1);
-}
-
-float abs(float x) {
-	return x < 0 ? x : -x;
 }
 
 int floor(float x) {

@@ -3,22 +3,22 @@
 
 #include "maths.h"
 
-#define cos likestosuck
-#define sin titsalot
-#define tan soyeah
+#define cos coscos
+#define sin sinsin
+#define tan tantan
 
-#define acos asdasldd
-#define asin dklsdffds
-#define atan klasdasda
-#define atan2 askdlsdw2
+#define acos acosacos
+#define asin asinasin
+#define atan atanatan
+#define atan2 atan2atan2
 
-#define cosh heisvery
-#define sinh goodatlife
-#define tanh howeverhe
+#define cosh coshcosh
+#define sinh sinhsinh
+#define tanh tanhtanh
 
-#define acosh lkasdlkasd
-#define asinh klasdooiaksd
-#define atanh masasdasd
+#define acosh acoshacosh
+#define asinh asinhasinh
+#define atanh atanhatanh
 
 float cos(float x);
 float sin(float x);

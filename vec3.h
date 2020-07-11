@@ -31,4 +31,8 @@ float vec3dotself(vec3 v);
 
 float vec3dist(vec3 a, vec3 b);
 
+vec3 vec3tween(vec3 a, vec3 b, float p);
+
+vec3 vec3reflect(vec3 v, vec3 n);
+
 #endif

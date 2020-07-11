@@ -98,3 +98,17 @@ float vec3dotself(vec3 v) {
 float vec3dist(vec3 a, vec3 b) {
 	return sqrt(vec3dotself(vec3vec3sub(b, a)));
 }
+
+vec3 vec3tween(vec3 a, vec3 b, float p) {
+	float o = 1 - p;
+	
+	return vec3new(
+		o*a.x + p*b.x,
+		o*a.y + p*b.y,
+		o*a.z + p*b.z
+	);
+}
+
+vec3 vec3reflect(vec3 v, vec3 n) {
+	return vec3vec3sub(v, vec3nummul(n, 2*vec3dot(v, n)));
+}

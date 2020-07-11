@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "maths.h"
 #include "vec2.h"
 #include "vec3.h"
@@ -9,21 +11,14 @@
 #include "hit.h"
 #include "trig.h"
 #include "int.h"
-#include <string.h>
 
 int main() {
-	//config
+	u8 colordepth = 255;
+	u8 maxframes  = 120;
+	vec2 viewsize = vec2new(400, 200);
+	vec2 hdrisize = vec2new(1800, 900);
 	vec3 campos;
 	mat3 camori;
-	vec2 viewsize = vec2new(1000, 500);
-	//vec2 hdrisize = vec2new(1500, 750);
-	u8 colordepth = 255;
-	u8 maxframes = 120;
-
-	//y
-	//DO HDRI THINGS
-	int hdriwidth  = 1800;
-	int hdriheight = 900;
 
 	vec2 screencen(vec2 screen, vec2 view) {
 
@@ -41,7 +36,7 @@ int main() {
 
 	}
 	
-	vec2 dirhdri(vec3 dir, vec2 view) {
+	vec2 hdridir(vec3 dir, vec2 view) {
 		float x = dir.x;
 		float y = dir.y;
 		float z = dir.z;
@@ -52,7 +47,7 @@ int main() {
 		);
 	}
 
-	vec3 hdridir(vec2 hdri, vec2 view) {
+	vec3 dirhdri(vec2 hdri, vec2 view) {
 		float i = TAU*hdri.x/view.x;
 		float j =  PI*hdri.y/view.y;
 
@@ -65,8 +60,7 @@ int main() {
 		);
 	}
 
-	u8 hdritex[3*hdriwidth*hdriheight];
-
+	u8 hdritex[(int)(3*hdrisize.x*hdrisize.y)];
 
 	void gettexture() {
 		FILE *file = fopen("textures/ocean.ppm", "r");
@@ -114,7 +108,7 @@ int main() {
 		*/
 
 		u32 ind = 0;
-		for (u16 y = 0; y < hdriheight; ++y) for (u16 x = 0; x < hdriwidth; ++x) {
+		for (u16 y = 0; y < hdrisize.y; ++y) for (u16 x = 0; x < hdrisize.x; ++x) {
 			u8 colr = getc(file);
 			u8 colg = getc(file);
 			u8 colb = getc(file);
@@ -129,10 +123,10 @@ int main() {
 	gettexture();
 
 	vec3 gethdricol(vec2 pos) {
-		int x = mod(pos.x, hdriwidth);
-		int y = mod(pos.y, hdriheight);
+		int x = mod(pos.x, hdrisize.x);
+		int y = mod(pos.y, hdrisize.y);
 
-		u32 i = 3*(x + hdriwidth*y);
+		u32 i = 3*(x + hdrisize.x*y);
 
 		return vec3new(
 			hdritex[i + 0]/255.f,
@@ -141,28 +135,12 @@ int main() {
 		);
 	}
 
-	vec3 tween3(vec3 a, vec3 b, float p) {
-		float o = 1 - p;
-
-		return vec3new(
-			o*a.x + p*b.x,
-			o*a.y + p*b.y,
-			o*a.z + p*b.z
-		);
-	}
-
-	//store information
+	//initialize spheres
 	int numspheres = 3;
-
-	sphere spheres[] = {
-		spheres[0] = spherenew(vec3new( 0,  0,  0), 1.7),
-		spheres[1] = spherenew(vec3new(-3, -1, -1), 1.4),
-		spheres[2] = spherenew(vec3new( 2,  2,  1), 0.9)
-	};
-
-	vec3 vec3reflect(vec3 v, vec3 n) {
-		return vec3vec3sub(v, vec3nummul(n, 2*vec3dot(v, n)));
-	}
+	sphere spheres[numspheres];
+	spheres[0] = spherenew(vec3new( 0,  0,  0), 1.7);
+	spheres[1] = spherenew(vec3new(-3, -1, -1), 1.4);
+	spheres[2] = spherenew(vec3new( 2,  2,  1), 0.9);
 
 	vec3 trace(vec3 pos, vec3 dir) {
 		u8 bestind = 255;
@@ -179,27 +157,31 @@ int main() {
 			}
 		}
 		if (bestind != 255) return col;
-		else return gethdricol(dirhdri(dir, vec2new(hdriwidth, hdriheight)));
+		else return gethdricol(hdridir(dir, hdrisize));
 	}
 
-	for (u8 i = 0; i < maxframes; ++i) {
-		float progress = 1.f*i/maxframes;
+	//iterate frames
+	for (u8 ind = 0; ind < maxframes; ++ind) {
+		//frame progress [0, 1)
+		float progress = 1.f*ind/maxframes;
 
+		//set camera position and orientation
 		campos = vec3new(-6*sin(TAU*progress), 0, -6*cos(TAU*progress));
 		camori = euleranglesy(TAU*progress);
 
-		//fucking name
-		u8 filename[24];
-		sprintf(filename, "output/%04d.ppm", i);
-		//open file
+		//initialize file name buffer
+		u8 filename[16];
+		//write to buffer
+		sprintf(filename, "output/%04d.ppm", ind);
+		//create file stream
 		FILE *file = fopen(filename, "w");
-		//create header data
+		//write header to file
 		fprintf(file, "P6\n%f %f\n%d\n", viewsize.x, viewsize.y, colordepth);
 
 		//iterate through pixels
 		for (u16 y = 0; y < viewsize.y; ++y) for (u16 x = 0; x < viewsize.x; ++x) {
 			//vec3 reldir = vec3new((2*x - viewsize.x)/viewsize.y, (viewsize.y - 2*y)/viewsize.y, 1);
-			vec3 reldir = hdridir(vec2new(x, viewsize.y - y), viewsize);
+			vec3 reldir = dirhdri(vec2new(x, viewsize.y - y), viewsize);
 			//get world space direction of pixel
 			vec3 castdir = vec3unit(mat3vec3mul(camori, reldir));
 			//calculate color
@@ -209,10 +191,10 @@ int main() {
 			fwrite((u8[]){colordepth*color.x, colordepth*color.y, colordepth*color.z}, 1, 3, file);
 		}
 
-		//close file
+		//close file stream
 		fclose(file);
 	}
 
-	//terminate
+	//end program
 	return 0;
 }
