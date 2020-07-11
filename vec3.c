@@ -90,3 +90,11 @@ vec3 vec3unit(vec3 v) {
 	if (len > 0) return vec3new(v.x/len, v.y/len, v.z/len);
 	else return vec3new(0, 0, 0);
 }
+
+float vec3dotself(vec3 v) {
+	return v.x*v.x + v.y*v.y + v.z*v.z;
+}
+
+float vec3dist(vec3 a, vec3 b) {
+	return sqrt(vec3dotself(vec3vec3sub(b, a)));
+}

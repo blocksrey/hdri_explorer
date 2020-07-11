@@ -27,4 +27,8 @@ float vec3dot(vec3 a, vec3 b);
 
 vec3 vec3unit(vec3 v);
 
+float vec3dotself(vec3 v);
+
+float vec3dist(vec3 a, vec3 b);
+
 #endif

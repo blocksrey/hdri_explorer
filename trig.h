@@ -27,7 +27,7 @@ float tan(float x);
 float acos(float x);
 float asin(float x);
 float atan(float x);
-float atan2(float x, float y);
+float atan2(float c, float s);
 
 float cosh(float x);
 float sinh(float x);

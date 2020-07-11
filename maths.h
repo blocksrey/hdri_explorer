@@ -1,6 +1,7 @@
 #ifndef MATHS_H
 #define MATHS_H
 
+#define ET  0.7853982f
 #define QT  1.5707963f
 #define PI  3.1415927f
 #define TAU 6.2831853f

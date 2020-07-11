@@ -3,14 +3,14 @@
 //forward
 float cos(float x) {
 	x *= 0.6366198f; x += 1;
-	float p = mod(x, 2) - 1; p *= p;
-	return (1 - 2*mod(floor(.5f*x), 2))*0.2265329f*(1.0017028f - p)*(4.4050123f - p);
+	float y = mod(x, 2) - 1;
+	return 0.2265329f*(1.0017028f - y*y)*(4.4050123f - y*y)*(2 + y - mod(x, 4));
 }
 
 float sin(float x) {
 	x *= 0.6366198f;
-	float p = mod(x, 2) - 1; p *= p;
-	return (1 - 2*mod(floor(.5f*x), 2))*0.2265329f*(1.0017028f - p)*(4.4050123f - p);
+	float y = mod(x, 2) - 1;
+	return 0.2265329f*(1.0017028f - y*y)*(4.4050123f - y*y)*(2 + y - mod(x, 4));
 }
 
 float tan(float x) {
@@ -40,11 +40,26 @@ float atan(float x) {
 	return
 		0.9959826f*x -
 		0.2922813f*x*x*x +
-		0.0830216*x*x*x*x*x;
+		0.0830216f*x*x*x*x*x;
 }
 
-float atan2(float x, float y) {
+float atan2(float c, float s) {
+	float o = 0, t;
 
+	if (s < 0)        c  = -c, s  = -s, o -= PI;
+	if (c < 0) t = c, c  =  s, s  = -t, o += QT;
+	if (c < s) t = c, c +=  s, s -=  t, o += ET;
+	
+	float d = 2/(c*c + s*s);
+	float x = d*c*c - 1;
+	float y = d*c*s;
+
+	return
+		o +
+		0.3926991f -
+		0.5574841f*(x - y) +
+		0.1648119f*(x*x - y*y) -
+		0.0584015f*(x*x*y - y*y*x);
 }
 
 //forward hyperbolic
